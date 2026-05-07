@@ -1,9 +1,9 @@
 import { useState, useRef, useEffect } from 'react'
 import { HDate } from '@hebcal/core'
 import { type View, getMonthName, navigateMonth, getWeekStart } from './utils/hebrewCalendar'
-import MonthView from './components/MonthView'
-import YearView from './components/YearView'
-import WeekView from './components/WeekView'
+import MonthView from './components/MonthView/MonthView'
+import YearView from './components/YearView/YearView'
+import WeekView from './components/WeekView/WeekView'
 import './App.css'
 
 function App() {

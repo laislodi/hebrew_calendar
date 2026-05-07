@@ -1,5 +1,6 @@
 import { HDate } from '@hebcal/core'
-import { WEEK_DAYS_MINI, getMonthName, getYearMonthOrder, buildMonthCells, isSameHDate } from '../utils/hebrewCalendar'
+import { WEEK_DAYS_MINI, getMonthName, getYearMonthOrder, buildMonthCells, isSameHDate } from '../../utils/hebrewCalendar'
+import './YearView.css'
 
 interface MiniMonthProps {
   month: number
