@@ -1,5 +1,6 @@
 import { HDate } from '@hebcal/core'
-import { WEEK_DAYS, buildMonthCells, isSameHDate } from '../utils/hebrewCalendar'
+import { WEEK_DAYS, buildMonthCells, isSameHDate } from '../../utils/hebrewCalendar'
+import './MonthView.css'
 
 interface Props {
   month: number
