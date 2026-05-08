@@ -1,9 +1,9 @@
 import { describe, it, expect, beforeEach } from 'vitest'
-import { render, screen, fireEvent, act } from '@testing-library/react'
+import { render, screen, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { HDate } from '@hebcal/core'
 import App from './App'
-import { getMonthName, navigateMonth, getWeekStart } from './utils/hebrewCalendar'
+import { getMonthName, navigateMonth } from './utils/hebrewCalendar'
 
 beforeEach(() => {
   localStorage.clear()
