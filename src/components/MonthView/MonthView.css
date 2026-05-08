@@ -31,8 +31,20 @@
   transition: background 0.15s;
 }
 
+.cal-cell:not(.cal-cell--empty) {
+  cursor: pointer;
+}
+
 .cal-cell:not(.cal-cell--empty):hover {
   background: var(--accent-bg);
+}
+
+.cal-cell--selected {
+  border-color: var(--accent-border);
+}
+
+.cal-cell--selected .cal-hday {
+  color: var(--accent);
 }
 
 .cal-cell--today {

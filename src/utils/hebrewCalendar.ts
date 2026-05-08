@@ -71,3 +71,9 @@ export function buildMonthCells(month: number, year: number): (number | null)[] 
 export function isSameHDate(a: HDate, day: number, month: number, year: number): boolean {
   return a.getDate() === day && a.getMonth() === month && a.getFullYear() === year
 }
+
+export function isSameDayGreg(a: Date, b: Date): boolean {
+  return a.getFullYear() === b.getFullYear() &&
+    a.getMonth() === b.getMonth() &&
+    a.getDate() === b.getDate()
+}

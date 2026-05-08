@@ -125,3 +125,18 @@
   color: var(--accent);
 }
 
+/* ---- Year view day popup ---- */
+
+.panel-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 150;
+}
+
+.panel-popup {
+  position: fixed;
+  z-index: 151;
+  box-shadow: var(--shadow);
+  border-radius: 12px;
+}
+

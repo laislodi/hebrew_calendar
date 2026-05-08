@@ -1,9 +1,11 @@
 import { useState, useRef, useEffect } from 'react'
 import { HDate } from '@hebcal/core'
 import { type View, getMonthName, navigateMonth, getWeekStart } from './utils/hebrewCalendar'
+import { useEvents } from './hooks/useEvents'
 import MonthView from './components/MonthView/MonthView'
 import YearView from './components/YearView/YearView'
 import WeekView from './components/WeekView/WeekView'
+import EventPanel from './components/EventPanel/EventPanel'
 import './App.css'
 
 function App() {
@@ -16,6 +18,11 @@ function App() {
     year: today.getFullYear(),
   })
   const [weekStart, setWeekStart] = useState(() => getWeekStart(today.greg()))
+  const [selectedDay, setSelectedDay] = useState<Date>(today.greg())
+  const [sidebarVisible, setSidebarVisible] = useState(false)
+  const [popupAnchor, setPopupAnchor] = useState<DOMRect | null>(null)
+
+  const { addEvent, updateEvent, deleteEvent, getEventsForDay } = useEvents()
 
   const dropdownRef = useRef<HTMLDivElement>(null)
 
@@ -64,6 +71,31 @@ function App() {
     else setWeekStart(d => { const nd = new Date(d); nd.setDate(nd.getDate() + 7); return nd })
   }
 
+  function getPopupStyle(anchor: DOMRect): React.CSSProperties {
+    const POPUP_WIDTH = 320
+    const POPUP_HEIGHT_EST = 300
+    const GAP = 8
+    const top = anchor.bottom + GAP + window.scrollY
+    const adjustedTop = anchor.bottom + POPUP_HEIGHT_EST + GAP > window.innerHeight
+      ? anchor.top - POPUP_HEIGHT_EST - GAP + window.scrollY
+      : top
+    const left = anchor.left + POPUP_WIDTH > window.innerWidth
+      ? anchor.right - POPUP_WIDTH
+      : anchor.left
+    return { top: adjustedTop, left, width: POPUP_WIDTH }
+  }
+
+  const eventPanel = (variant: 'below' | 'sidebar') => (
+    <EventPanel
+      selectedDay={selectedDay}
+      events={getEventsForDay(selectedDay)}
+      onAddEvent={addEvent}
+      onUpdateEvent={updateEvent}
+      onDeleteEvent={deleteEvent}
+      className={`event-panel--${variant}`}
+    />
+  )
+
   return (
     <div className="cal-wrapper">
       <div className="cal-topbar">
@@ -95,15 +127,57 @@ function App() {
         <button onClick={handleNext}>&#8594;</button>
       </div>
 
-      {view === 'month' && <MonthView month={current.month} year={current.year} today={today} />}
-      {view === 'year' && (
-        <YearView
-          year={current.year}
-          today={today}
-          onMonthSelect={month => { setCurrent(c => ({ ...c, month })); setView('month') }}
-        />
+      {view === 'month' && (
+        <>
+          <MonthView
+            month={current.month}
+            year={current.year}
+            today={today}
+            selectedDay={selectedDay}
+            onDaySelect={setSelectedDay}
+          />
+          {eventPanel('below')}
+        </>
       )}
-      {view === 'week' && <WeekView weekStart={weekStart} today={today} />}
+
+      {view === 'year' && (
+        <>
+          <YearView
+            year={current.year}
+            today={today}
+            selectedDay={selectedDay}
+            onMonthSelect={month => { setCurrent(c => ({ ...c, month })); setView('month') }}
+            onDaySelect={(d, rect) => { setSelectedDay(d); setPopupAnchor(rect); setSidebarVisible(true) }}
+          />
+          {sidebarVisible && popupAnchor && (
+            <>
+              <div className="panel-backdrop" onClick={() => setSidebarVisible(false)} />
+              <div className="panel-popup" style={getPopupStyle(popupAnchor)} onClick={e => e.stopPropagation()}>
+                <EventPanel
+                  selectedDay={selectedDay}
+                  events={getEventsForDay(selectedDay)}
+                  onAddEvent={addEvent}
+                  onUpdateEvent={updateEvent}
+                  onDeleteEvent={deleteEvent}
+                  onClose={() => setSidebarVisible(false)}
+                />
+              </div>
+            </>
+          )}
+        </>
+      )}
+
+      {view === 'week' && (
+        <>
+          <WeekView
+            weekStart={weekStart}
+            today={today}
+            selectedDay={selectedDay}
+            onDaySelect={setSelectedDay}
+          />
+          {eventPanel('below')}
+        </>
+      )}
     </div>
   )
 }

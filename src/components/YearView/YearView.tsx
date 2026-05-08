@@ -1,15 +1,17 @@
 import { HDate } from '@hebcal/core'
-import { WEEK_DAYS_MINI, getMonthName, getYearMonthOrder, buildMonthCells, isSameHDate } from '../../utils/hebrewCalendar'
+import { WEEK_DAYS_MINI, getMonthName, getYearMonthOrder, buildMonthCells, isSameHDate, isSameDayGreg } from '../../utils/hebrewCalendar'
 import './YearView.css'
 
 interface MiniMonthProps {
   month: number
   year: number
   today: HDate
+  selectedDay: Date | null
   onMonthSelect: (month: number) => void
+  onDaySelect: (d: Date, rect: DOMRect) => void
 }
 
-function MiniMonth({ month, year, today, onMonthSelect }: MiniMonthProps) {
+function MiniMonth({ month, year, today, selectedDay, onMonthSelect, onDaySelect }: MiniMonthProps) {
   const cells = buildMonthCells(month, year)
 
   return (
@@ -22,8 +24,14 @@ function MiniMonth({ month, year, today, onMonthSelect }: MiniMonthProps) {
         {cells.map((day, i) => {
           if (day === null) return <div key={i} className="mini-cell mini-cell--empty" />
           const isToday = isSameHDate(today, day, month, year)
+          const gregDate = new HDate(day, month, year).greg()
+          const isSelected = selectedDay !== null && isSameDayGreg(selectedDay, gregDate)
           return (
-            <div key={i} className={`mini-cell${isToday ? ' mini-cell--today' : ''}`}>
+            <div
+              key={i}
+              className={`mini-cell${isToday ? ' mini-cell--today' : ''}${isSelected ? ' mini-cell--selected' : ''}`}
+              onClick={e => onDaySelect(gregDate, (e.currentTarget as HTMLElement).getBoundingClientRect())}
+            >
               {day}
             </div>
           )
@@ -36,14 +44,24 @@ function MiniMonth({ month, year, today, onMonthSelect }: MiniMonthProps) {
 interface Props {
   year: number
   today: HDate
+  selectedDay: Date | null
   onMonthSelect: (month: number) => void
+  onDaySelect: (d: Date, rect: DOMRect) => void
 }
 
-export default function YearView({ year, today, onMonthSelect }: Props) {
+export default function YearView({ year, today, selectedDay, onMonthSelect, onDaySelect }: Props) {
   return (
     <div className="year-grid">
       {getYearMonthOrder(year).map(month => (
-        <MiniMonth key={month} month={month} year={year} today={today} onMonthSelect={onMonthSelect} />
+        <MiniMonth
+          key={month}
+          month={month}
+          year={year}
+          today={today}
+          selectedDay={selectedDay}
+          onMonthSelect={onMonthSelect}
+          onDaySelect={onDaySelect}
+        />
       ))}
     </div>
   )
