@@ -9,9 +9,11 @@ interface MiniMonthProps {
   selectedDay: Date | null
   onMonthSelect: (month: number) => void
   onDaySelect: (d: Date, rect: DOMRect) => void
+  hasEventsForDay?: (date: Date) => boolean
+  hasHolidayForDay?: (date: Date) => boolean
 }
 
-function MiniMonth({ month, year, today, selectedDay, onMonthSelect, onDaySelect }: MiniMonthProps) {
+function MiniMonth({ month, year, today, selectedDay, onMonthSelect, onDaySelect, hasEventsForDay, hasHolidayForDay }: MiniMonthProps) {
   const cells = buildMonthCells(month, year)
 
   return (
@@ -26,12 +28,20 @@ function MiniMonth({ month, year, today, selectedDay, onMonthSelect, onDaySelect
           const isToday = isSameHDate(today, day, month, year)
           const gregDate = new HDate(day, month, year).greg()
           const isSelected = selectedDay !== null && isSameDayGreg(selectedDay, gregDate)
+          const hasEvents = hasEventsForDay?.(gregDate) ?? false
+          const hasHoliday = hasHolidayForDay?.(gregDate) ?? false
           return (
             <div
               key={i}
               className={`mini-cell${isToday ? ' mini-cell--today' : ''}${isSelected ? ' mini-cell--selected' : ''}`}
               onClick={e => onDaySelect(gregDate, (e.currentTarget as HTMLElement).getBoundingClientRect())}
             >
+              {(hasHoliday || hasEvents) && (
+                <div className="cell-dots">
+                  {hasHoliday && <span className="holiday-dot" />}
+                  {hasEvents && <span className="event-dot" />}
+                </div>
+              )}
               {day}
             </div>
           )
@@ -47,9 +57,11 @@ interface Props {
   selectedDay: Date | null
   onMonthSelect: (month: number) => void
   onDaySelect: (d: Date, rect: DOMRect) => void
+  hasEventsForDay?: (date: Date) => boolean
+  hasHolidayForDay?: (date: Date) => boolean
 }
 
-export default function YearView({ year, today, selectedDay, onMonthSelect, onDaySelect }: Props) {
+export default function YearView({ year, today, selectedDay, onMonthSelect, onDaySelect, hasEventsForDay, hasHolidayForDay }: Props) {
   return (
     <div className="year-grid">
       {getYearMonthOrder(year).map(month => (
@@ -61,6 +73,8 @@ export default function YearView({ year, today, selectedDay, onMonthSelect, onDa
           selectedDay={selectedDay}
           onMonthSelect={onMonthSelect}
           onDaySelect={onDaySelect}
+          hasEventsForDay={hasEventsForDay}
+          hasHolidayForDay={hasHolidayForDay}
         />
       ))}
     </div>

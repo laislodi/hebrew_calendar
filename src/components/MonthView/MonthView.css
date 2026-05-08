@@ -29,6 +29,34 @@
   border: 1px solid transparent;
   gap: 3px;
   transition: background 0.15s;
+  position: relative;
+}
+
+.cell-dots {
+  position: absolute;
+  top: 5px;
+  right: 6px;
+  display: flex;
+  gap: 2px;
+  pointer-events: none;
+}
+
+.event-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: white;
+  box-shadow: 0 0 0 1.5px var(--accent);
+  flex-shrink: 0;
+}
+
+.holiday-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #fbbf24;
+  box-shadow: 0 0 0 1.5px #d97706;
+  flex-shrink: 0;
 }
 
 .cal-cell:not(.cal-cell--empty) {

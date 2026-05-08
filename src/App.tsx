@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
-import { HDate } from '@hebcal/core'
+import { HDate, HebrewCalendar } from '@hebcal/core'
 import { type View, getMonthName, navigateMonth, getWeekStart } from './utils/hebrewCalendar'
 import { useEvents } from './hooks/useEvents'
 import MonthView from './components/MonthView/MonthView'
@@ -23,6 +23,11 @@ function App() {
   const [popupAnchor, setPopupAnchor] = useState<DOMRect | null>(null)
 
   const { addEvent, updateEvent, deleteEvent, getEventsForDay } = useEvents()
+
+  function hasHolidayOnDay(date: Date): boolean {
+    const hdate = new HDate(date)
+    return (HebrewCalendar.getHolidaysOnDate(hdate, false) ?? []).length > 0
+  }
 
   const dropdownRef = useRef<HTMLDivElement>(null)
 
@@ -135,6 +140,8 @@ function App() {
             today={today}
             selectedDay={selectedDay}
             onDaySelect={setSelectedDay}
+            hasEventsForDay={d => getEventsForDay(d).length > 0}
+            hasHolidayForDay={hasHolidayOnDay}
           />
           {eventPanel('below')}
         </>
@@ -148,6 +155,8 @@ function App() {
             selectedDay={selectedDay}
             onMonthSelect={month => { setCurrent(c => ({ ...c, month })); setView('month') }}
             onDaySelect={(d, rect) => { setSelectedDay(d); setPopupAnchor(rect); setSidebarVisible(true) }}
+            hasEventsForDay={d => getEventsForDay(d).length > 0}
+            hasHolidayForDay={hasHolidayOnDay}
           />
           {sidebarVisible && popupAnchor && (
             <>

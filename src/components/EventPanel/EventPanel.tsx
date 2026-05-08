@@ -1,9 +1,15 @@
 import { useState } from 'react'
-import { HDate } from '@hebcal/core'
+import { HDate, HebrewCalendar } from '@hebcal/core'
 import type { CalendarEvent } from '../../types/event'
 import { getMonthName } from '../../utils/hebrewCalendar'
 import EventForm from '../EventForm/EventForm'
 import './EventPanel.css'
+
+function getHolidaysForDay(date: Date): string[] {
+  const hdate = new HDate(date)
+  const events = HebrewCalendar.getHolidaysOnDate(hdate, false) ?? []
+  return events.map(e => e.getDesc())
+}
 
 interface Props {
   selectedDay: Date
@@ -37,6 +43,7 @@ export default function EventPanel({ selectedDay, events, onAddEvent, onUpdateEv
 
   const hdate = new HDate(selectedDay)
   const hebrewDate = `${getMonthName(hdate.getMonth(), hdate.getFullYear())} ${hdate.getDate()}, ${hdate.getFullYear()}`
+  const holidays = getHolidaysForDay(selectedDay)
 
   function openAdd() {
     setEditingEvent(null)
@@ -67,6 +74,17 @@ export default function EventPanel({ selectedDay, events, onAddEvent, onUpdateEv
           <button className="event-panel-close" onClick={onClose}>✕</button>
         )}
       </div>
+
+      {holidays.length > 0 && (
+        <div className="holiday-list">
+          {holidays.map((name, i) => (
+            <div key={i} className="holiday-item">
+              <span className="holiday-icon">✡</span>
+              {name}
+            </div>
+          ))}
+        </div>
+      )}
 
       <div className="event-panel-list">
         {events.length === 0 ? (
