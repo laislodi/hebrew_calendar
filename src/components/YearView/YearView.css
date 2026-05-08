@@ -66,9 +66,24 @@
   background: none;
 }
 
+.mini-cell:not(.mini-cell--empty) {
+  cursor: pointer;
+}
+
+.mini-cell:not(.mini-cell--empty):hover {
+  background: var(--accent-bg);
+}
+
 .mini-cell--today {
   background: var(--accent-bg);
   color: var(--accent);
   font-weight: 700;
   outline: 1px solid var(--accent-border);
+}
+
+.mini-cell--selected {
+  background: var(--accent-bg);
+  color: var(--accent);
+  font-weight: 700;
+  outline: 2px solid var(--accent);
 }

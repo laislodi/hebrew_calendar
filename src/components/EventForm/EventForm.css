@@ -1,0 +1,213 @@
+.form-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+}
+
+.form-box {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px;
+  width: 100%;
+  max-width: 440px;
+  box-shadow: var(--shadow);
+}
+
+.form-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.form-header h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-h);
+}
+
+.form-close {
+  background: none;
+  border: none;
+  font-size: 16px;
+  color: var(--text);
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: background 0.15s;
+}
+
+.form-close:hover {
+  background: var(--accent-bg);
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.form-field label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.form-field input,
+.form-field textarea {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 15px;
+  color: var(--text-h);
+  font-family: var(--sans);
+  transition: border-color 0.15s;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.form-field input:focus,
+.form-field textarea:focus {
+  outline: none;
+  border-color: var(--accent-border);
+}
+
+.form-field textarea {
+  resize: vertical;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.form-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-h);
+  cursor: pointer;
+  margin-bottom: 16px;
+  user-select: none;
+}
+
+.form-checkbox input[type='checkbox'] {
+  width: 15px;
+  height: 15px;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+.heb-picker {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.heb-picker-date {
+  display: flex;
+  width: 100%;
+  gap: 6px;
+}
+
+.heb-picker select,
+.heb-picker-time {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-size: 14px;
+  color: var(--text-h);
+  font-family: var(--sans);
+  transition: border-color 0.15s;
+}
+
+.heb-picker select:focus,
+.heb-picker-time:focus {
+  outline: none;
+  border-color: var(--accent-border);
+}
+
+.heb-picker-year {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-size: 14px;
+  color: var(--text-h);
+  font-family: var(--sans);
+  width: 80px;
+  transition: border-color 0.15s;
+}
+
+.heb-picker-year:focus {
+  outline: none;
+  border-color: var(--accent-border);
+}
+
+.form-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 24px;
+}
+
+.form-actions-right {
+  display: flex;
+  gap: 8px;
+}
+
+.form-btn {
+  border-radius: 8px;
+  padding: 8px 18px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+  border: 1px solid transparent;
+}
+
+.form-btn--save {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+
+.form-btn--save:hover {
+  opacity: 0.88;
+}
+
+.form-btn--cancel {
+  background: none;
+  color: var(--text-h);
+  border-color: var(--border);
+}
+
+.form-btn--cancel:hover {
+  background: var(--accent-bg);
+  border-color: var(--accent-border);
+}
+
+.form-btn--delete {
+  background: none;
+  color: #e53e3e;
+  border-color: #e53e3e40;
+}
+
+.form-btn--delete:hover {
+  background: #e53e3e18;
+}

@@ -27,6 +27,12 @@
   padding: 10px 8px;
   gap: 1px;
   border-left: 1px solid var(--border);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.week-col-header:hover {
+  background: var(--accent-bg);
 }
 
 .week-col-header--today {
@@ -89,4 +95,22 @@
 
 .week-hour-cell--today {
   background: var(--social-bg);
+}
+
+.week-col-header--selected {
+  background: var(--accent-bg);
+  border-bottom: 2px solid var(--accent);
+}
+
+.week-col-header--selected .week-hday {
+  color: var(--accent);
+}
+
+.week-hour-cell {
+  cursor: pointer;
+}
+
+.week-hour-cell--selected {
+  background: var(--accent-bg);
+  opacity: 0.6;
 }

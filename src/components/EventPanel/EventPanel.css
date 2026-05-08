@@ -1,0 +1,125 @@
+.event-panel {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: var(--bg);
+}
+
+.event-panel-close {
+  background: none;
+  border: none;
+  font-size: 16px;
+  color: var(--text);
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: background 0.15s;
+  flex-shrink: 0;
+}
+
+.event-panel-close:hover {
+  background: var(--accent-bg);
+  color: var(--text-h);
+}
+
+/* below-calendar variant (month/week): full width, margin on top */
+.event-panel--below {
+  margin-top: 20px;
+}
+
+/* sidebar variant (year): fixed width */
+.event-panel--sidebar {
+  width: 280px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 20px;
+}
+
+.event-panel-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 12px;
+}
+
+.event-panel-greg {
+  font-size: 12px;
+  color: var(--text);
+  margin-top: 2px;
+}
+
+.event-panel-hdate {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-h);
+}
+
+.event-panel-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 60px;
+}
+
+.event-panel-empty {
+  font-size: 13px;
+  color: var(--text);
+  margin: 0;
+  padding: 8px 0;
+}
+
+.event-item {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.event-item:hover {
+  background: var(--accent-bg);
+  border-color: var(--accent-border);
+}
+
+.event-item-time {
+  font-size: 11px;
+  color: var(--text);
+  margin-bottom: 3px;
+}
+
+.event-item-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-h);
+}
+
+.event-item-desc {
+  font-size: 12px;
+  color: var(--text);
+  margin-top: 3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.event-panel-add {
+  background: none;
+  border: 1px dashed var(--border);
+  border-radius: 8px;
+  padding: 9px;
+  font-size: 13px;
+  color: var(--text);
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+  text-align: center;
+}
+
+.event-panel-add:hover {
+  background: var(--accent-bg);
+  border-color: var(--accent-border);
+  color: var(--accent);
+}
