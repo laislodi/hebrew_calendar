@@ -60,6 +60,34 @@
     font-size: 9px;
     color: var(--text-h);
     border-radius: 50%;
+    position: relative;
+}
+
+.mini-cell .cell-dots {
+  position: absolute;
+  top: 1px;
+  right: 1px;
+  display: flex;
+  gap: 1px;
+  pointer-events: none;
+}
+
+.mini-cell .event-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: white;
+  box-shadow: 0 0 0 1px var(--accent);
+  flex-shrink: 0;
+}
+
+.mini-cell .holiday-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #fbbf24;
+  box-shadow: 0 0 0 1px #d97706;
+  flex-shrink: 0;
 }
 
 .mini-cell--empty {
