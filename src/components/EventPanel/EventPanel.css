@@ -113,29 +113,142 @@
 }
 
 .holiday-item {
+  border-radius: 8px;
+  border: 1px solid rgba(217, 119, 6, 0.25);
+  overflow: hidden;
+}
+
+.holiday-header {
   display: flex;
   align-items: center;
   gap: 8px;
   padding: 8px 12px;
-  border-radius: 8px;
-  border-left: 3px solid #d97706;
+  width: 100%;
   background: #fffbeb;
+  border: none;
+  border-left: 3px solid #d97706;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.holiday-header:hover {
+  background: #fef3c7;
+}
+
+.holiday-header-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.holiday-level {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: #d97706;
+}
+
+.holiday-name {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   font-size: 13px;
   font-weight: 500;
   color: #78350f;
 }
 
 .holiday-icon {
-  font-size: 11px;
-  opacity: 0.8;
+  font-size: 14px;
   flex-shrink: 0;
 }
 
+.holiday-chevron {
+  font-size: 9px;
+  color: #d97706;
+  flex-shrink: 0;
+  transition: transform 0.2s;
+}
+
+.holiday-item--open .holiday-chevron {
+  transform: rotate(180deg);
+}
+
+.holiday-details {
+  padding: 10px 12px;
+  background: #fffdf5;
+  border-top: 1px solid rgba(217, 119, 6, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.holiday-memo {
+  font-size: 12px;
+  color: #78350f;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.holiday-categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.holiday-tag {
+  font-size: 10px;
+  background: rgba(217, 119, 6, 0.1);
+  color: #92400e;
+  border-radius: 4px;
+  padding: 2px 6px;
+  text-transform: capitalize;
+}
+
+.holiday-link {
+  font-size: 12px;
+  color: #d97706;
+  text-decoration: none;
+  font-weight: 500;
+  align-self: flex-start;
+}
+
+.holiday-link:hover {
+  text-decoration: underline;
+}
+
 @media (prefers-color-scheme: dark) {
-  .holiday-item {
+  .holiday-header {
     background: #1c1a10;
-    color: #fcd34d;
     border-left-color: #d97706;
+  }
+
+  .holiday-header:hover {
+    background: #221e0f;
+  }
+
+  .holiday-name {
+    color: #fcd34d;
+  }
+
+  .holiday-details {
+    background: #161408;
+    border-top-color: rgba(217, 119, 6, 0.2);
+  }
+
+  .holiday-memo {
+    color: #fde68a;
+  }
+
+  .holiday-tag {
+    background: rgba(217, 119, 6, 0.2);
+    color: #fbbf24;
+  }
+
+  .holiday-link {
+    color: #fbbf24;
   }
 }
 
