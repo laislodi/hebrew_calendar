@@ -9,10 +9,10 @@ interface Props {
   selectedDay: Date | null
   onDaySelect: (d: Date) => void
   hasEventsForDay?: (date: Date) => boolean
-  hasHolidayForDay?: (date: Date) => boolean
+  holidayLevelForDay?: (date: Date) => 'major' | 'minor' | null
 }
 
-export default function MonthView({ month, year, today, selectedDay, onDaySelect, hasEventsForDay, hasHolidayForDay }: Props) {
+export default function MonthView({ month, year, today, selectedDay, onDaySelect, hasEventsForDay, holidayLevelForDay }: Props) {
   const cells = buildMonthCells(month, year)
 
   return (
@@ -24,16 +24,18 @@ export default function MonthView({ month, year, today, selectedDay, onDaySelect
         const isToday = isSameHDate(today, day, month, year)
         const isSelected = selectedDay !== null && isSameDayGreg(selectedDay, greg)
         const hasEvents = hasEventsForDay?.(greg) ?? false
-        const hasHoliday = hasHolidayForDay?.(greg) ?? false
+        const holidayLevel = holidayLevelForDay?.(greg) ?? null
         return (
           <div
             key={i}
             className={`cal-cell${isToday ? ' cal-cell--today' : ''}${isSelected ? ' cal-cell--selected' : ''}`}
             onClick={() => onDaySelect(greg)}
           >
-            {(hasHoliday || hasEvents) && (
+            {(holidayLevel || hasEvents) && (
               <div className="cell-dots">
-                {hasHoliday && <span className="holiday-dot" />}
+                {holidayLevel && (
+                  <span className={`holiday-dot${holidayLevel === 'minor' ? ' holiday-dot--minor' : ''}`} />
+                )}
                 {hasEvents && <span className="event-dot" />}
               </div>
             )}

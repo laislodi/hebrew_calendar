@@ -1,14 +1,32 @@
-import { useState } from 'react'
-import { HDate, HebrewCalendar } from '@hebcal/core'
+import { useState, useEffect } from 'react'
+import { HDate, HebrewCalendar, flags } from '@hebcal/core'
 import type { CalendarEvent } from '../../types/event'
 import { getMonthName } from '../../utils/hebrewCalendar'
 import EventForm from '../EventForm/EventForm'
 import './EventPanel.css'
 
-function getHolidaysForDay(date: Date): string[] {
+const MAJOR_MASK = flags.CHAG | flags.MAJOR_FAST
+
+type HolidayInfo = {
+  name: string
+  level: 'major' | 'minor'
+  emoji: string | null
+  categories: string[]
+  memo?: string
+  url?: string
+}
+
+function getHolidaysForDay(date: Date): HolidayInfo[] {
   const hdate = new HDate(date)
   const events = HebrewCalendar.getHolidaysOnDate(hdate, false) ?? []
-  return events.map(e => e.getDesc())
+  return events.map(e => ({
+    name: e.getDesc(),
+    level: (e.getFlags() & MAJOR_MASK) !== 0 ? 'major' : 'minor',
+    emoji: e.getEmoji(),
+    categories: e.getCategories(),
+    memo: e.memo,
+    url: e.url(),
+  }))
 }
 
 interface Props {
@@ -40,10 +58,17 @@ function formatTime(iso: string): string {
 export default function EventPanel({ selectedDay, events, onAddEvent, onUpdateEvent, onDeleteEvent, className, onClose }: Props) {
   const [formOpen, setFormOpen] = useState(false)
   const [editingEvent, setEditingEvent] = useState<CalendarEvent | null>(null)
+  const [expandedHoliday, setExpandedHoliday] = useState<number | null>(null)
+
+  useEffect(() => { setExpandedHoliday(null) }, [selectedDay])
 
   const hdate = new HDate(selectedDay)
   const hebrewDate = `${getMonthName(hdate.getMonth(), hdate.getFullYear())} ${hdate.getDate()}, ${hdate.getFullYear()}`
   const holidays = getHolidaysForDay(selectedDay)
+
+  function toggleHoliday(i: number) {
+    setExpandedHoliday(prev => prev === i ? null : i)
+  }
 
   function openAdd() {
     setEditingEvent(null)
@@ -77,10 +102,33 @@ export default function EventPanel({ selectedDay, events, onAddEvent, onUpdateEv
 
       {holidays.length > 0 && (
         <div className="holiday-list">
-          {holidays.map((name, i) => (
-            <div key={i} className="holiday-item">
-              <span className="holiday-icon">✡</span>
-              {name}
+          {holidays.map((holiday, i) => (
+            <div key={i} className={`holiday-item${expandedHoliday === i ? ' holiday-item--open' : ''}`}>
+              <button className="holiday-header" onClick={() => toggleHoliday(i)}>
+                <div className="holiday-header-content">
+                  <span className="holiday-level">{holiday.level === 'major' ? 'Major Holiday' : 'Minor Holiday'}</span>
+                  <div className="holiday-name">
+                    {holiday.emoji && <span className="holiday-icon">{holiday.emoji}</span>}
+                    <span>{holiday.name}</span>
+                  </div>
+                </div>
+                <span className="holiday-chevron">▼</span>
+              </button>
+              {expandedHoliday === i && (
+                <div className="holiday-details">
+                  {holiday.memo && <p className="holiday-memo">{holiday.memo}</p>}
+                  {holiday.categories.length > 0 && (
+                    <div className="holiday-categories">
+                      {holiday.categories.map(c => <span key={c} className="holiday-tag">{c}</span>)}
+                    </div>
+                  )}
+                  {holiday.url && (
+                    <a href={holiday.url} target="_blank" rel="noopener noreferrer" className="holiday-link">
+                      Learn more ↗
+                    </a>
+                  )}
+                </div>
+              )}
             </div>
           ))}
         </div>

@@ -10,10 +10,10 @@ interface MiniMonthProps {
   onMonthSelect: (month: number) => void
   onDaySelect: (d: Date, rect: DOMRect) => void
   hasEventsForDay?: (date: Date) => boolean
-  hasHolidayForDay?: (date: Date) => boolean
+  holidayLevelForDay?: (date: Date) => 'major' | 'minor' | null
 }
 
-function MiniMonth({ month, year, today, selectedDay, onMonthSelect, onDaySelect, hasEventsForDay, hasHolidayForDay }: MiniMonthProps) {
+function MiniMonth({ month, year, today, selectedDay, onMonthSelect, onDaySelect, hasEventsForDay, holidayLevelForDay }: MiniMonthProps) {
   const cells = buildMonthCells(month, year)
 
   return (
@@ -29,16 +29,18 @@ function MiniMonth({ month, year, today, selectedDay, onMonthSelect, onDaySelect
           const gregDate = new HDate(day, month, year).greg()
           const isSelected = selectedDay !== null && isSameDayGreg(selectedDay, gregDate)
           const hasEvents = hasEventsForDay?.(gregDate) ?? false
-          const hasHoliday = hasHolidayForDay?.(gregDate) ?? false
+          const holidayLevel = holidayLevelForDay?.(gregDate) ?? null
           return (
             <div
               key={i}
               className={`mini-cell${isToday ? ' mini-cell--today' : ''}${isSelected ? ' mini-cell--selected' : ''}`}
               onClick={e => onDaySelect(gregDate, (e.currentTarget as HTMLElement).getBoundingClientRect())}
             >
-              {(hasHoliday || hasEvents) && (
+              {(holidayLevel || hasEvents) && (
                 <div className="cell-dots">
-                  {hasHoliday && <span className="holiday-dot" />}
+                  {holidayLevel && (
+                    <span className={`holiday-dot${holidayLevel === 'minor' ? ' holiday-dot--minor' : ''}`} />
+                  )}
                   {hasEvents && <span className="event-dot" />}
                 </div>
               )}
@@ -58,10 +60,10 @@ interface Props {
   onMonthSelect: (month: number) => void
   onDaySelect: (d: Date, rect: DOMRect) => void
   hasEventsForDay?: (date: Date) => boolean
-  hasHolidayForDay?: (date: Date) => boolean
+  holidayLevelForDay?: (date: Date) => 'major' | 'minor' | null
 }
 
-export default function YearView({ year, today, selectedDay, onMonthSelect, onDaySelect, hasEventsForDay, hasHolidayForDay }: Props) {
+export default function YearView({ year, today, selectedDay, onMonthSelect, onDaySelect, hasEventsForDay, holidayLevelForDay }: Props) {
   return (
     <div className="year-grid">
       {getYearMonthOrder(year).map(month => (
@@ -74,7 +76,7 @@ export default function YearView({ year, today, selectedDay, onMonthSelect, onDa
           onMonthSelect={onMonthSelect}
           onDaySelect={onDaySelect}
           hasEventsForDay={hasEventsForDay}
-          hasHolidayForDay={hasHolidayForDay}
+          holidayLevelForDay={holidayLevelForDay}
         />
       ))}
     </div>
