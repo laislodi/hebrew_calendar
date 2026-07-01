@@ -19,6 +19,12 @@
   margin: 0;
 }
 
+/* Keeps goto/view-selector out of normal flow (both are position:absolute)
+   so they don't disturb the centered heading on wide screens. */
+.cal-topbar-actions {
+  display: contents;
+}
+
 /* ---- View selector dropdown ---- */
 
 .cal-view-selector {
@@ -138,5 +144,50 @@
   z-index: 151;
   box-shadow: var(--shadow);
   border-radius: 12px;
+  max-width: calc(100vw - 16px);
+}
+
+/* ---- Mobile ---- */
+
+@media (max-width: 640px) {
+  .cal-wrapper {
+    margin: 20px auto;
+    padding: 0 12px;
+  }
+
+  .cal-topbar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .cal-heading {
+    text-align: center;
+    font-size: 22px;
+  }
+
+  .cal-topbar-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .goto-wrapper,
+  .cal-view-selector {
+    position: relative;
+  }
+
+  .cal-nav {
+    gap: 8px;
+  }
+
+  .cal-nav button {
+    padding: 8px 14px;
+  }
+
+  .cal-month-label {
+    font-size: 17px;
+    text-align: center;
+  }
 }
 
