@@ -1,0 +1,128 @@
+.goto-wrapper {
+  position: absolute;
+  left: 0;
+}
+
+.goto-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 15px;
+  color: var(--text-h);
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.goto-btn:hover {
+  background: var(--accent-bg);
+  border-color: var(--accent-border);
+}
+
+.goto-panel {
+  position: absolute;
+  left: 0;
+  top: calc(100% + 6px);
+  width: min(280px, calc(100vw - 32px));
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  padding: 16px;
+  box-sizing: border-box;
+  z-index: 100;
+}
+
+.goto-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-h);
+  cursor: pointer;
+  margin-bottom: 12px;
+  user-select: none;
+}
+
+.goto-checkbox input[type='checkbox'] {
+  width: 15px;
+  height: 15px;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+.goto-date-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.goto-date-row select,
+.goto-year {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-size: 14px;
+  color: var(--text-h);
+  font-family: var(--sans);
+  transition: border-color 0.15s;
+  min-width: 0;
+}
+
+.goto-date-row select:focus,
+.goto-year:focus {
+  outline: none;
+  border-color: var(--accent-border);
+}
+
+.goto-date-row select {
+  flex: 1 1 auto;
+}
+
+.goto-year {
+  width: 80px;
+  flex: 0 0 auto;
+}
+
+.goto-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.goto-today-btn,
+.goto-go-btn {
+  flex: 1;
+  border-radius: 8px;
+  padding: 8px 18px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, opacity 0.15s;
+}
+
+.goto-today-btn {
+  background: none;
+  color: var(--text-h);
+  border: 1px solid var(--border);
+}
+
+.goto-today-btn:hover {
+  background: var(--accent-bg);
+  border-color: var(--accent-border);
+}
+
+.goto-go-btn {
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  color: #fff;
+}
+
+.goto-go-btn:hover {
+  opacity: 0.88;
+}

@@ -5,6 +5,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 16px;
+  box-sizing: border-box;
   z-index: 200;
 }
 
@@ -15,7 +17,10 @@
   padding: 24px;
   width: 100%;
   max-width: 440px;
+  max-height: 100%;
+  overflow-y: auto;
   box-shadow: var(--shadow);
+  box-sizing: border-box;
 }
 
 .form-header {
@@ -157,6 +162,22 @@
 .heb-picker-year:focus {
   outline: none;
   border-color: var(--accent-border);
+}
+
+@media (max-width: 420px) {
+  .heb-picker-date {
+    flex-wrap: wrap;
+  }
+
+  .heb-picker-date select {
+    flex: 1 1 40%;
+    min-width: 0;
+  }
+
+  .heb-picker-year {
+    flex: 1 1 100%;
+    width: auto;
+  }
 }
 
 .form-actions {

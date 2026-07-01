@@ -6,6 +6,7 @@ import MonthView from './components/MonthView/MonthView'
 import YearView from './components/YearView/YearView'
 import WeekView from './components/WeekView/WeekView'
 import EventPanel from './components/EventPanel/EventPanel'
+import GoToDate from './components/GoToDate/GoToDate'
 import './App.css'
 
 function App() {
@@ -79,18 +80,27 @@ function App() {
     else setWeekStart(d => { const nd = new Date(d); nd.setDate(nd.getDate() + 7); return nd })
   }
 
+  function handleGoToDate(date: Date) {
+    const hdate = new HDate(date)
+    setCurrent({ month: hdate.getMonth(), year: hdate.getFullYear() })
+    setWeekStart(getWeekStart(date))
+    setSelectedDay(date)
+    setSidebarVisible(false)
+  }
+
   function getPopupStyle(anchor: DOMRect): React.CSSProperties {
-    const POPUP_WIDTH = 320
-    const POPUP_HEIGHT_EST = 300
     const GAP = 8
+    const popupWidth = Math.min(320, window.innerWidth - GAP * 2)
+    const POPUP_HEIGHT_EST = 300
     const top = anchor.bottom + GAP + window.scrollY
     const adjustedTop = anchor.bottom + POPUP_HEIGHT_EST + GAP > window.innerHeight
       ? anchor.top - POPUP_HEIGHT_EST - GAP + window.scrollY
       : top
-    const left = anchor.left + POPUP_WIDTH > window.innerWidth
-      ? anchor.right - POPUP_WIDTH
+    const rawLeft = anchor.left + popupWidth > window.innerWidth
+      ? anchor.right - popupWidth
       : anchor.left
-    return { top: adjustedTop, left, width: POPUP_WIDTH }
+    const left = Math.max(GAP, Math.min(rawLeft, window.innerWidth - popupWidth - GAP))
+    return { top: adjustedTop, left, width: popupWidth }
   }
 
   const eventPanel = (variant: 'below' | 'sidebar') => (
@@ -108,24 +118,27 @@ function App() {
     <div className="cal-wrapper">
       <div className="cal-topbar">
         <h1 className="cal-heading">Hebrew Calendar</h1>
-        <div className="cal-view-selector" ref={dropdownRef}>
-          <button className="cal-view-btn" onClick={() => setDropdownOpen(o => !o)}>
-            {view.charAt(0).toUpperCase() + view.slice(1)}
-            <span className="cal-caret">▾</span>
-          </button>
-          {dropdownOpen && (
-            <div className="cal-dropdown">
-              {(['year', 'month', 'week'] as View[]).map(v => (
-                <button
-                  key={v}
-                  className={`cal-dropdown-item${view === v ? ' active' : ''}`}
-                  onClick={() => { setView(v); setDropdownOpen(false) }}
-                >
-                  {v.charAt(0).toUpperCase() + v.slice(1)}
-                </button>
-              ))}
-            </div>
-          )}
+        <div className="cal-topbar-actions">
+          <GoToDate onGoToDate={handleGoToDate} />
+          <div className="cal-view-selector" ref={dropdownRef}>
+            <button className="cal-view-btn" onClick={() => setDropdownOpen(o => !o)}>
+              {view.charAt(0).toUpperCase() + view.slice(1)}
+              <span className="cal-caret">▾</span>
+            </button>
+            {dropdownOpen && (
+              <div className="cal-dropdown">
+                {(['year', 'month', 'week'] as View[]).map(v => (
+                  <button
+                    key={v}
+                    className={`cal-dropdown-item${view === v ? ' active' : ''}`}
+                    onClick={() => { setView(v); setDropdownOpen(false) }}
+                  >
+                    {v.charAt(0).toUpperCase() + v.slice(1)}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       </div>
 

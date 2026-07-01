@@ -3,11 +3,14 @@
   border-radius: 12px;
   max-height: 80vh;
   overflow-y: scroll;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .week-header {
   display: grid;
   grid-template-columns: 56px repeat(7, 1fr);
+  min-width: 500px;
   border-bottom: 2px solid var(--border);
   background: var(--bg);
   position: sticky;
@@ -70,6 +73,7 @@
 .week-hour-row {
   display: grid;
   grid-template-columns: 56px repeat(7, 1fr);
+  min-width: 500px;
   height: 48px;
   border-bottom: 1px solid var(--border);
 }
